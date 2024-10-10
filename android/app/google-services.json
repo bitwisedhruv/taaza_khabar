@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "130332478556",
+    "project_id": "taaza-khabar-101a2",
+    "storage_bucket": "taaza-khabar-101a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130332478556:android:e3f0f624ae448f8e61ea99",
+        "android_client_info": {
+          "package_name": "com.bitwisedhruv.taaza_khabar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYkx1pNq8V5eTzR0_L_CjoqP078qHvKuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
