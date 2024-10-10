@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taaza_khabar/features/auth/auth_provider.dart';
 import 'package:taaza_khabar/features/auth/signup_page.dart';
+import 'package:taaza_khabar/features/home/home_page.dart';
 import 'package:taaza_khabar/firebase_options.dart';
 import 'package:taaza_khabar/palette.dart';
 
@@ -33,7 +34,22 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: AppPalette.theme,
-        home: const SignupPage(),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: AppPalette.blueColor,
+                ),
+              );
+            }
+            if (snapshot.data != null) {
+              return const HomePage();
+            }
+            return const SignupPage();
+          },
+        ),
         debugShowCheckedModeBanner: false,
       ),
     );

@@ -31,6 +31,7 @@ class _SignupPageState extends State<SignupPage> {
             color: AppPalette.blueColor,
           ),
         ),
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20)

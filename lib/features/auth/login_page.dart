@@ -30,6 +30,7 @@ class LoginPageState extends State<LoginPage> {
             color: AppPalette.blueColor,
           ),
         ),
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20)
