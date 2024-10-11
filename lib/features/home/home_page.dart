@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:taaza_khabar/features/auth/auth_provider.dart';
+import 'package:taaza_khabar/features/home/detailed_view.dart';
 import 'package:taaza_khabar/features/home/remote_config.dart';
 import 'package:taaza_khabar/features/home/widgets/fetch_news.dart';
 import 'package:taaza_khabar/features/home/widgets/news_card.dart';
@@ -168,11 +169,21 @@ class _HomePageState extends State<HomePage> {
               child: ListView.builder(
                 itemCount: articles.length,
                 itemBuilder: (context, index) {
-                  return NewsCard(
-                    headline: articles[index]['title'] ?? '',
-                    description: articles[index]['description'] ?? '',
-                    publishedAt: formatTimeAgo(articles[index]['publishedAt']),
-                    imageUrl: articles[index]['urlToImage'] ?? '',
+                  return GestureDetector(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => DetailedView(
+                          url: articles[index]['url'],
+                        ),
+                      ),
+                    ),
+                    child: NewsCard(
+                      headline: articles[index]['title'] ?? '',
+                      description: articles[index]['description'] ?? '',
+                      publishedAt:
+                          formatTimeAgo(articles[index]['publishedAt']),
+                      imageUrl: articles[index]['urlToImage'] ?? '',
+                    ),
                   );
                 },
               ),
