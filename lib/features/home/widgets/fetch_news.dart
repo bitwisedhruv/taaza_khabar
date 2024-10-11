@@ -16,6 +16,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
 class FetchNews {
@@ -27,7 +28,7 @@ class FetchNews {
 
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
-      print(jsonResponse);
+      if (kDebugMode) print(jsonResponse);
       return jsonResponse['articles'];
     } else {
       throw Exception('Failed to load news');

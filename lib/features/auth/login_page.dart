@@ -38,12 +38,20 @@ class LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AuthField(authFieldText: "Email", controller: emailController),
+            AuthField(
+              authFieldText: "Email",
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+            ),
             const SizedBox(
               height: 12,
             ),
             AuthField(
-                authFieldText: "Password", controller: passwordController),
+              authFieldText: "Password",
+              controller: passwordController,
+              keyboardType: TextInputType.text,
+              isObscure: true,
+            ),
             const Spacer(),
             AuthButton(
               data: "Login",

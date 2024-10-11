@@ -1,8 +1,9 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:taaza_khabar/common/custom_snackbar.dart';
 import 'package:taaza_khabar/features/auth/signup_page.dart';
 import 'package:taaza_khabar/features/home/home_page.dart';
 
@@ -38,9 +39,14 @@ class UserAuthProvider extends ChangeNotifier {
             builder: (context) => const HomePage(),
           ),
           (route) => false);
+      CustomSnackbar.showSnackbar(context, 'User created Successfully');
       notifyListeners();
     } on FirebaseAuthException catch (e) {
-      print(e.message);
+      CustomSnackbar.showSnackbar(
+        context,
+        e.message!,
+        backgroundColor: Colors.red,
+      );
     }
   }
 
@@ -54,16 +60,21 @@ class UserAuthProvider extends ChangeNotifier {
         email: email,
         password: password,
       );
-      print(userCredential);
+      debugPrint(userCredential.toString());
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => const HomePage(),
           ),
           (route) => false);
+      CustomSnackbar.showSnackbar(context, 'User logged in successfully!');
       notifyListeners();
     } on FirebaseAuthException catch (e) {
-      print(e.message);
+      CustomSnackbar.showSnackbar(
+        context,
+        e.message!,
+        backgroundColor: Colors.red,
+      );
     }
   }
 
@@ -78,9 +89,14 @@ class UserAuthProvider extends ChangeNotifier {
         ),
         (route) => false,
       );
+      CustomSnackbar.showSnackbar(context, 'User Logged out successfully');
       notifyListeners();
-    } catch (e) {
-      print('Error logging out: $e');
+    } on FirebaseAuthException catch (e) {
+      CustomSnackbar.showSnackbar(
+        context,
+        e.message!,
+        backgroundColor: Colors.red,
+      );
     }
   }
 }

@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:taaza_khabar/common/custom_snackbar.dart';
 import 'package:taaza_khabar/features/auth/auth_provider.dart';
 import 'package:taaza_khabar/features/home/detailed_view.dart';
 import 'package:taaza_khabar/features/home/remote_config.dart';
@@ -38,7 +41,11 @@ class _HomePageState extends State<HomePage> {
 
       fetchArticlesForCountry(selectedCountry);
     } catch (e) {
-      print('Error loading Country Endpoints: $e');
+      CustomSnackbar.showSnackbar(
+        context,
+        'Error Loading Country Endpoints : $e',
+        backgroundColor: Colors.red,
+      );
     }
   }
 
@@ -50,7 +57,11 @@ class _HomePageState extends State<HomePage> {
             .toList();
       });
     }).catchError((error) {
-      print('Error fetching news: $error');
+      CustomSnackbar.showSnackbar(
+        context,
+        'Error Fetching News : $error',
+        backgroundColor: Colors.red,
+      );
     });
   }
 
@@ -120,7 +131,11 @@ class _HomePageState extends State<HomePage> {
                   this.articles = articles;
                 });
               }).catchError((error) {
-                print('Error Fetching news: $error');
+                CustomSnackbar.showSnackbar(
+                  context,
+                  'Error Fetching News : $error',
+                  backgroundColor: Colors.red,
+                );
               });
             },
             items: countryEndpoints.keys

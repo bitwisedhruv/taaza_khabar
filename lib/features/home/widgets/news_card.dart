@@ -38,12 +38,12 @@ class NewsCard extends StatelessWidget {
                 children: [
                   Text(
                     headline,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                       height: 4), // Small spacing between title and subtitle
                   Text(
                     description,
@@ -54,10 +54,10 @@ class NewsCard extends StatelessWidget {
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 8), // Spacing between text and time
+                  const SizedBox(height: 8), // Spacing between text and time
                   Text(
                     publishedAt,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       color: Colors.grey,
                     ),

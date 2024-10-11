@@ -42,6 +42,7 @@ class _SignupPageState extends State<SignupPage> {
             AuthField(
               authFieldText: "Name",
               controller: nameController,
+              keyboardType: TextInputType.text,
             ),
             const SizedBox(
               height: 12,
@@ -49,6 +50,7 @@ class _SignupPageState extends State<SignupPage> {
             AuthField(
               authFieldText: "Email",
               controller: emailController,
+              keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(
               height: 12,
@@ -57,6 +59,7 @@ class _SignupPageState extends State<SignupPage> {
               authFieldText: "Password",
               controller: passwordController,
               isObscure: true,
+              keyboardType: TextInputType.text,
             ),
             const Spacer(),
             AuthButton(

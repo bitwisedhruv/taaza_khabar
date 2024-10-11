@@ -4,11 +4,15 @@ class AuthField extends StatelessWidget {
   final String authFieldText;
   final TextEditingController controller;
   final bool isObscure;
+  final TextInputType keyboardType;
+  final TextCapitalization textCapitalization;
   const AuthField({
     super.key,
     required this.authFieldText,
     required this.controller,
     this.isObscure = false,
+    required this.keyboardType,
+    this.textCapitalization = TextCapitalization.sentences,
   });
 
   @override
@@ -16,6 +20,8 @@ class AuthField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: isObscure,
+      keyboardType: keyboardType,
+      textCapitalization: textCapitalization,
       decoration: InputDecoration(
         hintText: authFieldText,
       ),
