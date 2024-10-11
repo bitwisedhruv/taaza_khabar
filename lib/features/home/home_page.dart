@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:taaza_khabar/features/home/wudgets/news_card.dart';
+import 'package:taaza_khabar/features/home/remote_config.dart';
+import 'package:taaza_khabar/features/home/widgets/fetch_news.dart';
+import 'package:taaza_khabar/features/home/widgets/news_card.dart';
 import 'package:taaza_khabar/palette.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,6 +12,44 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Map<String, String> countryEndpoints = {};
+  String selectedCountry = '';
+  List articles = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadCountryEndpoints();
+  }
+
+  Future<void> loadCountryEndpoints() async {
+    try {
+      Map<String, String> fetchedEndpoints = await fetchCountryEndpoints();
+      setState(() {
+        countryEndpoints = fetchedEndpoints;
+        selectedCountry = countryEndpoints.containsKey('US')
+            ? 'US'
+            : countryEndpoints.keys.first;
+      });
+
+      fetchArticlesForCountry(selectedCountry);
+    } catch (e) {
+      print('Error loading Country Endpoints: $e');
+    }
+  }
+
+  void fetchArticlesForCountry(String country) {
+    FetchNews.fetchNews(countryEndpoints[country]!).then((fetchedArticles) {
+      setState(() {
+        articles = fetchedArticles
+            .where((article) => article['title'] != '[Removed]')
+            .toList();
+      });
+    }).catchError((error) {
+      print('Error fetching news: $error');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,22 +65,56 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         actions: [
-          ElevatedButton.icon(
-            onPressed: () {},
-            label: const Text(
-              'data',
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
+          // ElevatedButton.icon(
+          //   onPressed: () {},
+          //   label: const Text(
+          //     'data',
+          //     style: const TextStyle(
+          //       color: Colors.white,
+          //     ),
+          //   ),
+          //   icon: const Icon(
+          //     Icons.location_on_outlined,
+          //     color: Colors.white,
+          //   ),
+          //   style: ElevatedButton.styleFrom(
+          //     backgroundColor: Colors.transparent,
+          //     shadowColor: Colors.transparent,
+          //   ),
+          // ),
+          DropdownButton(
+            value: selectedCountry,
             icon: const Icon(
-              Icons.location_on_outlined,
+              Icons.arrow_drop_down_rounded,
               color: Colors.white,
             ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.transparent,
-              shadowColor: Colors.transparent,
-            ),
+            dropdownColor: Colors.black,
+            style: const TextStyle(color: Colors.white),
+            onChanged: (String? newCountry) {
+              setState(() {
+                selectedCountry = newCountry!;
+              });
+              FetchNews.fetchNews(countryEndpoints[selectedCountry]!)
+                  .then((articles) {
+                setState(() {
+                  this.articles = articles;
+                });
+              }).catchError((error) {
+                print('Error Fetching news: $error');
+              });
+            },
+            items: countryEndpoints.keys
+                .map<DropdownMenuItem<String>>((String country) {
+              return DropdownMenuItem<String>(
+                value: country,
+                child: Text(
+                  country,
+                  style: const TextStyle(
+                      // color: Colors.white,
+                      ),
+                ),
+              );
+            }).toList(),
           ),
         ],
       ),
@@ -62,7 +136,19 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 12,
             ),
-            NewsCard()
+            Expanded(
+              child: ListView.builder(
+                itemCount: articles.length,
+                itemBuilder: (context, index) {
+                  return NewsCard(
+                    headline: articles[index]['title'] ?? '',
+                    description: articles[index]['description'] ?? '',
+                    publishedAt: articles[index]['publishedAt'] ?? '',
+                    imageUrl: articles[index]['urlToImage'] ?? '',
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),

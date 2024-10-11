@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
 class NewsCard extends StatelessWidget {
-  const NewsCard({super.key});
+  final String headline;
+  final String description;
+  final String publishedAt;
+  final String imageUrl;
+  const NewsCard({
+    super.key,
+    required this.headline,
+    required this.description,
+    required this.publishedAt,
+    required this.imageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +21,7 @@ class NewsCard extends StatelessWidget {
       ),
       elevation: 0,
       color: Colors.white, // Shadow effect
-      margin: EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0),
       child: Padding(
         padding: const EdgeInsets.all(12.0), // Padding around the card
         child: Row(
@@ -27,7 +37,7 @@ class NewsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'News Source',
+                    headline,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -36,7 +46,7 @@ class NewsCard extends StatelessWidget {
                   SizedBox(
                       height: 4), // Small spacing between title and subtitle
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                    description,
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[600],
@@ -46,7 +56,7 @@ class NewsCard extends StatelessWidget {
                   ),
                   SizedBox(height: 8), // Spacing between text and time
                   Text(
-                    '10 min ago',
+                    publishedAt,
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.grey,
@@ -68,7 +78,7 @@ class NewsCard extends StatelessWidget {
                     BorderRadius.circular(10), // Rounded image corners
               ),
               child: Image.network(
-                'https://media.istockphoto.com/id/1369150014/vector/breaking-news-with-world-map-background-vector.jpg?s=612x612&w=0&k=20&c=9pR2-nDBhb7cOvvZU_VdgkMmPJXrBQ4rB1AkTXxRIKM=', // Replace with your image URL
+                imageUrl,
                 fit: BoxFit.cover, // Make the image cover the container
               ),
             ),
