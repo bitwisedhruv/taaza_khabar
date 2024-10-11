@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:taaza_khabar/features/auth/signup_page.dart';
 import 'package:taaza_khabar/features/home/home_page.dart';
 
 class UserAuthProvider extends ChangeNotifier {
@@ -63,6 +64,23 @@ class UserAuthProvider extends ChangeNotifier {
       notifyListeners();
     } on FirebaseAuthException catch (e) {
       print(e.message);
+    }
+  }
+
+  Future<void> logout({required BuildContext context}) async {
+    try {
+      await _auth.signOut();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              const SignupPage(), // Assuming you have a login page
+        ),
+        (route) => false,
+      );
+      notifyListeners();
+    } catch (e) {
+      print('Error logging out: $e');
     }
   }
 }

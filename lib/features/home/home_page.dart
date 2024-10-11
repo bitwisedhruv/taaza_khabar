@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taaza_khabar/features/auth/auth_provider.dart';
 import 'package:taaza_khabar/features/home/remote_config.dart';
 import 'package:taaza_khabar/features/home/widgets/fetch_news.dart';
 import 'package:taaza_khabar/features/home/widgets/news_card.dart';
@@ -52,6 +54,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<UserAuthProvider>(context);
     return Scaffold(
       backgroundColor: AppPalette.lightGreyColor,
       appBar: AppBar(
@@ -115,6 +118,15 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             }).toList(),
+          ),
+          IconButton(
+            onPressed: () async {
+              await authProvider.logout(context: context);
+            },
+            icon: const Icon(
+              Icons.logout_outlined,
+              color: Colors.white,
+            ),
           ),
         ],
       ),
