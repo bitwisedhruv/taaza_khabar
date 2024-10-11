@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:taaza_khabar/features/auth/auth_provider.dart';
 import 'package:taaza_khabar/features/home/remote_config.dart';
@@ -50,6 +51,21 @@ class _HomePageState extends State<HomePage> {
     }).catchError((error) {
       print('Error fetching news: $error');
     });
+  }
+
+  String formatTimeAgo(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    Duration difference = DateTime.now().difference(dateTime);
+
+    if (difference.inSeconds < 60) {
+      return '${difference.inSeconds} secs ago';
+    } else if (difference.inMinutes < 60) {
+      return '${difference.inMinutes} mins ago';
+    } else if (difference.inHours < 24) {
+      return '${difference.inHours} hours ago';
+    } else {
+      return DateFormat('dd MMM yyyy').format(dateTime);
+    }
   }
 
   @override
@@ -155,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                   return NewsCard(
                     headline: articles[index]['title'] ?? '',
                     description: articles[index]['description'] ?? '',
-                    publishedAt: articles[index]['publishedAt'] ?? '',
+                    publishedAt: formatTimeAgo(articles[index]['publishedAt']),
                     imageUrl: articles[index]['urlToImage'] ?? '',
                   );
                 },
